@@ -48,7 +48,7 @@ class IsAdminOrReadOnly(permissions.BasePermission):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().select_related('organisation')
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # Updated to handle authenticated users
+    permission_classes = [AllowAny]  # Updated to handle authenticated users
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['role', 'is_active']
     search_fields = ['email', 'username']
@@ -58,7 +58,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class OrganisationViewSet(viewsets.ModelViewSet):
     queryset = Organisation.objects.all().select_related('admin')
     serializer_class = OrganisationSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # Updated to handle authenticated users
+    permission_classes = [AllowAny]  # Updated to handle authenticated users
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'location']
     ordering_fields = ['created_at', 'updated_at']
@@ -67,7 +67,7 @@ class OrganisationViewSet(viewsets.ModelViewSet):
 class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all().select_related('organisation', 'created_by')
     serializer_class = JobSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # Updated to handle authenticated users
+    permission_classes = [AllowAny]  # Updated to handle authenticated users
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['organisation', 'is_open']
     search_fields = ['title', 'description']
@@ -77,7 +77,7 @@ class JobViewSet(viewsets.ModelViewSet):
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all().select_related('job', 'applicant')
     serializer_class = ApplicationSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # Updated to handle authenticated users
+    permission_classes = [AllowAny]  # Updated to handle authenticated users
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['status', 'job']
     search_fields = ['skill_description', 'applicant__email']
@@ -99,7 +99,7 @@ class ApplicationViewSet(viewsets.ModelViewSet):
 class OrganisationStaffViewSet(viewsets.ModelViewSet):
     queryset = OrganisationStaff.objects.all().select_related('organisation', 'user')
     serializer_class = OrganisationStaffSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # Updated to handle authenticated users
+    permission_classes = [AllowAny]  # Updated to handle authenticated users
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['user__email', 'organisation__name']
     ordering_fields = ['created_at', 'updated_at']
